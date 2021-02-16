@@ -97,6 +97,7 @@ const DOM = {
     DOM.transactionsContainer.appendChild(tr)
   },
   innerHTMLTransaction(transaction, index) {
+    
     const CSSclass = transaction.amount > 0 ? "income" : "expense"
 
     const amount = Utils.formatCurrency(transaction.amount)
@@ -166,11 +167,13 @@ const Form = {
   date: document.querySelector('input#date'),
 
   getValues() {
-    return {
+
+    return  {
       description: Form.description.value,
       amount: Form.amount.value,
       date: Form.date.value
-    }
+    };
+
   },
 
   validateFields() {
@@ -183,9 +186,8 @@ const Form = {
   },
 
   formatValues() {
-    let { description, amount, date } = Form.getValues()
 
-    amount = Utils.formatAmount(amount)
+    let { description, amount, date } = Form.getValues()
 
     date = Utils.formatDate(date)
 
