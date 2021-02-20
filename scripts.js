@@ -98,9 +98,9 @@ const DOM = {
   },
   innerHTMLTransaction(transaction, index) {
     
-    const CSSclass = transaction.amount > 0 ? "income" : "expense"
+    const CSSclass = parseFloat(transaction.amount) > 0 ? "income" : "expense"
 
-    const amount = Utils.formatCurrency(transaction.amount)
+    const amount = Utils.formatCurrency(parseFloat(transaction.amount))
 
     const html = `
     <tr>
