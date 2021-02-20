@@ -53,9 +53,9 @@ const Transaction = {
     // Para cada transação, 
     Transaction.all.forEach(transaction => {
       // se a transação for maior que zero
-      if (transaction.amount > 0) {
+      if (parseFloat(transaction.amount) > 0) {
         // somar a uma variável e retornar a variável
-        income += transaction.amount;
+        income += parseFloat(transaction.amount);
       }
 
     })
@@ -68,9 +68,9 @@ const Transaction = {
     // Para cada transação, 
     Transaction.all.forEach(transaction => {
       // se a transação for menor que zero
-      if (transaction.amount < 0) {
+      if (parseFloat(transaction.amount) < 0) {
         // somar a uma variável e retornar a variável
-        expense += transaction.amount;
+        expense += parseFloat(transaction.amount);
       }
 
     })
@@ -79,7 +79,7 @@ const Transaction = {
   },
   total() {
 
-    return Transaction.incomes() + Transaction.expenses();
+    return parseFloat(Transaction.incomes()) + parseFloat(Transaction.expenses());
 
   }
 }
@@ -134,10 +134,13 @@ const DOM = {
 }
 
 const Utils = {
+
   formatAmount(value) {
-    value = Number(value) * 100
+
+    value = value.replace(".", "").replace(/,/g, '.')
 
     return value
+
   },
 
   formatDate(date) {
@@ -146,18 +149,14 @@ const Utils = {
   },
 
   formatCurrency(value) {
-    const signal = Number(value) < 0 ? "-" : ""
-
-    value = String(value).replace(/\D/g, "")
-
-    value = Number(value) / 100
-
+ 
     value = value.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL"
     })
 
-    return signal + value
+    return value
+
   }
 }
 
@@ -190,6 +189,7 @@ const Form = {
     let { description, amount, date } = Form.getValues()
 
     date = Utils.formatDate(date)
+    amount = Utils.formatAmount(amount)
 
     return {
       description,
@@ -211,6 +211,7 @@ const Form = {
       Form.validateFields()
       // formatar os dados para salvar
       const transaction = Form.formatValues()
+
       // salvar
       Transaction.add(transaction)
       // apagar os dados do formulário
